@@ -1,0 +1,863 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HOCH OPS CIC Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d1117;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    header {
+      background: #161b22;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .clock {
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+    }
+    .toggle-btn {
+      margin: 10px;
+      padding: 8px 16px;
+      background-color: #30363d;
+      color: white;
+      border: 1px solid #444c56;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .grid-container, .list-container {
+      display: none;
+      padding: 1rem;
+    }
+    .grid-container.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1rem;
+    }
+    .list-container.active {
+      display: block;
+    }
+    .job-card {
+      background: #1f2937;
+      border: 1px solid #2f3b4a;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 10px rgba(0,255,255,0.1);
+    }
+    .job-card img {
+      max-height: 40px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    .job-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="clock" id="clock">Loading time...</div>
+    <button class="toggle-btn" onclick="toggleView()">Toggle View</button>
+  </header>
+
+  <div class="grid-container active" id="grid">
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #1</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 61%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #2</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 62%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #3</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 63%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #4</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 64%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #5</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 65%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #6</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 66%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #7</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 67%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #8</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 68%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #9</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 69%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #10</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 70%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #11</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 71%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #12</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 72%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #13</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 73%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #14</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 74%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #15</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 75%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #16</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 76%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #17</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 77%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #18</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 78%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #19</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 79%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #20</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 80%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #21</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 81%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #22</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 82%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #23</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 83%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #24</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 84%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #25</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 85%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #26</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 86%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #27</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 87%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #28</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 88%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #29</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 89%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #30</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 90%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #31</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 91%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #32</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 92%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #33</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 93%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #34</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 94%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #35</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 60%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #36</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 61%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #37</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 62%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #38</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 63%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #39</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 64%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #40</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 65%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #41</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 66%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #42</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 67%</p>
+      <p>Status: New</p>
+    </div>
+    
+  </div>
+
+  <div class="list-container" id="list">
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #1</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 61%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #2</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 62%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #3</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 63%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #4</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 64%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #5</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 65%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #6</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 66%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #7</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 67%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #8</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 68%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #9</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 69%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #10</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 70%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #11</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 71%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #12</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 72%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #13</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 73%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #14</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 74%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #15</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 75%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #16</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 76%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #17</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 77%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #18</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 78%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #19</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 79%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #20</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 80%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #21</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 81%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #22</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 82%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #23</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 83%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #24</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 84%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #25</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 85%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #26</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 86%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #27</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 87%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #28</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 88%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #29</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 89%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #30</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 90%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #31</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 91%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #32</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 92%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #33</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 93%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #34</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 94%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">Booz Allen – Cybersecurity Position #35</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 60%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Raytheon – Cybersecurity Position #36</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 61%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">SAIC – Cybersecurity Position #37</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 62%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Leidos – Cybersecurity Position #38</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 63%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">CACI – Cybersecurity Position #39</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 64%</p>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">BAE Systems – Cybersecurity Position #40</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 65%</p>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Lockheed Martin – Cybersecurity Position #41</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 66%</p>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Northrop Grumman – Cybersecurity Position #42</div>
+      <p>Location: Huntsville, AL</p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust, eMASS</p>
+      <p>ATS Score: 67%</p>
+      <p>Status: New</p>
+    </div>
+    
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      document.getElementById('clock').textContent = timeString;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function toggleView() {
+      const grid = document.getElementById('grid');
+      const list = document.getElementById('list');
+      grid.classList.toggle('active');
+      list.classList.toggle('active');
+    }
+  </script>
+</body>
+</html>
