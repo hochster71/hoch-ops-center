@@ -1,0 +1,1556 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HOCH SOC OPS DASHBOARD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      background-color: #0d1117;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    header {
+      background: #161b22;
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .clock {
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+    }
+    .toggle-btn {
+      margin: 10px;
+      padding: 8px 16px;
+      background-color: #30363d;
+      color: white;
+      border: 1px solid #444c56;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .grid-container, .list-container {
+      display: none;
+      padding: 1rem;
+    }
+    .grid-container.active {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1rem;
+    }
+    .list-container.active {
+      display: block;
+    }
+    .job-card {
+      background: #1f2937;
+      border: 1px solid #2f3b4a;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0,255,255,0.1);
+    }
+    .job-card img.logo {
+      max-height: 40px;
+      max-width: 120px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .job-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-top: 5px;
+    }
+    .ats-circle {
+      color: #0d1117;
+      font-weight: bold;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .buttons button {
+      margin-right: 5px;
+      margin-top: 10px;
+      background-color: #30363d;
+      color: white;
+      border: 1px solid #444c56;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .legend {
+      background: #21262d;
+      padding: 1rem;
+      margin: 1rem;
+      border-radius: 6px;
+    }
+    .legend h3 {
+      margin-top: 0;
+    }
+    .legend-box {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #161b22;
+      color: #888;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+<div style="text-align: center; padding: 1rem; background-color: #0b0f15; font-size: 1.8rem; font-weight: bold; border-bottom: 1px solid #30363d;">
+  HOCH SOC OPS DASHBOARD
+</div>
+<div style="background-color: #161b22; color: #00ff95; padding: 0.5rem 1rem; font-family: monospace; font-size: 0.95rem;">
+  <marquee behavior="scroll" direction="left">🔄 Searching: LinkedIn | USAJobs | ClearanceJobs | Dice | Indeed | AI-Sync Protocol | Parsing XML from FedJobs | Monitoring ClearanceWave...</marquee>
+</div>
+<div style="background-color: #21262d; color: #bbb; padding: 0.5rem 1rem; font-size: 0.9rem; text-align: center;">
+  Companies Represented: <span>Lockheed Martin</span> | <span>Northrop Grumman</span> | <span>Booz Allen</span> | <span>Raytheon</span> | <span>SAIC</span> | <span>Leidos</span> | <span>CACI</span> | <span>BAE Systems</span>
+</div>
+<div style="text-align: center; font-size: 0.8rem; color: #777; padding: 0.5rem;">
+  Last Updated: May 16, 2025 – 21:05:14
+</div>
+
+  <header>
+    <div class="clock" id="clock">Loading time...</div>
+    <button class="toggle-btn" onclick="toggleView()">Toggle View</button>
+  </header>
+
+  
+<div class="legend">
+  <h3>ATS Score Legend</h3>
+  <ul>
+    <li><span class="legend-box" style="background-color:#00ff95;"></span> 80–100% Match (Green)</li>
+    <li><span class="legend-box" style="background-color:#ffd700;"></span> 60–79% Match (Yellow)</li>
+    <li><span class="legend-box" style="background-color:#ff4c4c;"></span> Below 60% Match (Red)</li>
+  </ul>
+</div>
+
+
+  
+<div style="background-color: #11151c; padding: 0.75rem 1rem; color: #00ff95; font-weight: bold; text-align: center; font-size: 1rem; border-bottom: 1px solid #30363d;">
+  📊 Jobs Applied For: <span id="applied-count">0</span>
+  <button onclick="updateCount('applied-count')" style="margin-right: 20px;">➕</button>
+  🤝 Interviews Received: <span id="interview-count">0</span>
+  <button onclick="updateCount('interview-count')" style="margin-right: 20px;">➕</button>
+  📝 Resumes Edited: <span id="resume-count">0</span>
+  <button onclick="updateCount('resume-count')">➕</button>
+</div>
+
+<div style="display: flex; justify-content: space-around; padding: 1rem; background-color: #0b0f15;">
+  <div style="background-color: #1f2937; border: 1px solid #2f3b4a; border-radius: 8px; padding: 1rem; width: 45%; color: #00ff95; text-align: center;">
+    ❤️ <div style="font-size: 1.2rem; font-weight: bold;">Heart Rate</div>
+    <div style="font-size: 2rem;">76 bpm</div>
+    <div style="font-size: 0.85rem; color: #aaa;">Apple Health (Simulated)</div>
+  </div>
+  <div style="background-color: #1f2937; border: 1px solid #2f3b4a; border-radius: 8px; padding: 1rem; width: 45%; color: #00bfff; text-align: center;">
+    🚗 <div style="font-size: 1.2rem; font-weight: bold;">Tesla Status</div>
+    <div style="font-size: 1rem;">Battery: 78%</div>
+    <div style="font-size: 0.9rem;">Charging: Connected</div>
+    <div style="font-size: 0.85rem; color: #aaa;">Tesla App Link Active</div>
+  </div>
+</div>
+<div class="grid-container active" id="grid">
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $121K–$131K</p>
+      <p>Hiring Manager: John Doe 1</p>
+      <div class="ats-circle" style="background-color:#ffd700;">61%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $122K–$132K</p>
+      <p>Hiring Manager: John Doe 2</p>
+      <div class="ats-circle" style="background-color:#ffd700;">62%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $123K–$133K</p>
+      <p>Hiring Manager: John Doe 3</p>
+      <div class="ats-circle" style="background-color:#ffd700;">63%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $124K–$134K</p>
+      <p>Hiring Manager: John Doe 4</p>
+      <div class="ats-circle" style="background-color:#ffd700;">64%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $125K–$135K</p>
+      <p>Hiring Manager: John Doe 5</p>
+      <div class="ats-circle" style="background-color:#ffd700;">65%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $126K–$136K</p>
+      <p>Hiring Manager: John Doe 6</p>
+      <div class="ats-circle" style="background-color:#ffd700;">66%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $127K–$137K</p>
+      <p>Hiring Manager: John Doe 7</p>
+      <div class="ats-circle" style="background-color:#ffd700;">67%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $128K–$138K</p>
+      <p>Hiring Manager: John Doe 8</p>
+      <div class="ats-circle" style="background-color:#ffd700;">68%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $129K–$139K</p>
+      <p>Hiring Manager: John Doe 9</p>
+      <div class="ats-circle" style="background-color:#ffd700;">69%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $130K–$140K</p>
+      <p>Hiring Manager: John Doe 10</p>
+      <div class="ats-circle" style="background-color:#ffd700;">70%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $131K–$141K</p>
+      <p>Hiring Manager: John Doe 11</p>
+      <div class="ats-circle" style="background-color:#ffd700;">71%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $132K–$142K</p>
+      <p>Hiring Manager: John Doe 12</p>
+      <div class="ats-circle" style="background-color:#ffd700;">72%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $133K–$143K</p>
+      <p>Hiring Manager: John Doe 13</p>
+      <div class="ats-circle" style="background-color:#ffd700;">73%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $134K–$144K</p>
+      <p>Hiring Manager: John Doe 14</p>
+      <div class="ats-circle" style="background-color:#ffd700;">74%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $135K–$145K</p>
+      <p>Hiring Manager: John Doe 15</p>
+      <div class="ats-circle" style="background-color:#ffd700;">75%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $136K–$146K</p>
+      <p>Hiring Manager: John Doe 16</p>
+      <div class="ats-circle" style="background-color:#ffd700;">76%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $137K–$147K</p>
+      <p>Hiring Manager: John Doe 17</p>
+      <div class="ats-circle" style="background-color:#ffd700;">77%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $138K–$148K</p>
+      <p>Hiring Manager: John Doe 18</p>
+      <div class="ats-circle" style="background-color:#ffd700;">78%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $139K–$149K</p>
+      <p>Hiring Manager: John Doe 19</p>
+      <div class="ats-circle" style="background-color:#ffd700;">79%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $140K–$150K</p>
+      <p>Hiring Manager: John Doe 20</p>
+      <div class="ats-circle" style="background-color:#00ff95;">80%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $141K–$151K</p>
+      <p>Hiring Manager: John Doe 21</p>
+      <div class="ats-circle" style="background-color:#00ff95;">81%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $142K–$152K</p>
+      <p>Hiring Manager: John Doe 22</p>
+      <div class="ats-circle" style="background-color:#00ff95;">82%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $143K–$153K</p>
+      <p>Hiring Manager: John Doe 23</p>
+      <div class="ats-circle" style="background-color:#00ff95;">83%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $144K–$154K</p>
+      <p>Hiring Manager: John Doe 24</p>
+      <div class="ats-circle" style="background-color:#00ff95;">84%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $145K–$155K</p>
+      <p>Hiring Manager: John Doe 25</p>
+      <div class="ats-circle" style="background-color:#00ff95;">85%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $146K–$156K</p>
+      <p>Hiring Manager: John Doe 26</p>
+      <div class="ats-circle" style="background-color:#00ff95;">86%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $147K–$157K</p>
+      <p>Hiring Manager: John Doe 27</p>
+      <div class="ats-circle" style="background-color:#00ff95;">87%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $148K–$158K</p>
+      <p>Hiring Manager: John Doe 28</p>
+      <div class="ats-circle" style="background-color:#00ff95;">88%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $149K–$159K</p>
+      <p>Hiring Manager: John Doe 29</p>
+      <div class="ats-circle" style="background-color:#00ff95;">89%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $150K–$160K</p>
+      <p>Hiring Manager: John Doe 30</p>
+      <div class="ats-circle" style="background-color:#00ff95;">90%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $151K–$161K</p>
+      <p>Hiring Manager: John Doe 31</p>
+      <div class="ats-circle" style="background-color:#00ff95;">91%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $152K–$162K</p>
+      <p>Hiring Manager: John Doe 32</p>
+      <div class="ats-circle" style="background-color:#00ff95;">92%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $153K–$163K</p>
+      <p>Hiring Manager: John Doe 33</p>
+      <div class="ats-circle" style="background-color:#00ff95;">93%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $154K–$164K</p>
+      <p>Hiring Manager: John Doe 34</p>
+      <div class="ats-circle" style="background-color:#00ff95;">94%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $155K–$165K</p>
+      <p>Hiring Manager: John Doe 35</p>
+      <div class="ats-circle" style="background-color:#ffd700;">60%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $156K–$166K</p>
+      <p>Hiring Manager: John Doe 36</p>
+      <div class="ats-circle" style="background-color:#ffd700;">61%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $157K–$167K</p>
+      <p>Hiring Manager: John Doe 37</p>
+      <div class="ats-circle" style="background-color:#ffd700;">62%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $158K–$168K</p>
+      <p>Hiring Manager: John Doe 38</p>
+      <div class="ats-circle" style="background-color:#ffd700;">63%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $159K–$169K</p>
+      <p>Hiring Manager: John Doe 39</p>
+      <div class="ats-circle" style="background-color:#ffd700;">64%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $160K–$170K</p>
+      <p>Hiring Manager: John Doe 40</p>
+      <div class="ats-circle" style="background-color:#ffd700;">65%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $161K–$171K</p>
+      <p>Hiring Manager: John Doe 41</p>
+      <div class="ats-circle" style="background-color:#ffd700;">66%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $162K–$172K</p>
+      <p>Hiring Manager: John Doe 42</p>
+      <div class="ats-circle" style="background-color:#ffd700;">67%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+  </div>
+
+  <div class="list-container" id="list">
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $121K–$131K</p>
+      <p>Hiring Manager: John Doe 1</p>
+      <div class="ats-circle" style="background-color:#ffd700;">61%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $122K–$132K</p>
+      <p>Hiring Manager: John Doe 2</p>
+      <div class="ats-circle" style="background-color:#ffd700;">62%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $123K–$133K</p>
+      <p>Hiring Manager: John Doe 3</p>
+      <div class="ats-circle" style="background-color:#ffd700;">63%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $124K–$134K</p>
+      <p>Hiring Manager: John Doe 4</p>
+      <div class="ats-circle" style="background-color:#ffd700;">64%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $125K–$135K</p>
+      <p>Hiring Manager: John Doe 5</p>
+      <div class="ats-circle" style="background-color:#ffd700;">65%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $126K–$136K</p>
+      <p>Hiring Manager: John Doe 6</p>
+      <div class="ats-circle" style="background-color:#ffd700;">66%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $127K–$137K</p>
+      <p>Hiring Manager: John Doe 7</p>
+      <div class="ats-circle" style="background-color:#ffd700;">67%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $128K–$138K</p>
+      <p>Hiring Manager: John Doe 8</p>
+      <div class="ats-circle" style="background-color:#ffd700;">68%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $129K–$139K</p>
+      <p>Hiring Manager: John Doe 9</p>
+      <div class="ats-circle" style="background-color:#ffd700;">69%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $130K–$140K</p>
+      <p>Hiring Manager: John Doe 10</p>
+      <div class="ats-circle" style="background-color:#ffd700;">70%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $131K–$141K</p>
+      <p>Hiring Manager: John Doe 11</p>
+      <div class="ats-circle" style="background-color:#ffd700;">71%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $132K–$142K</p>
+      <p>Hiring Manager: John Doe 12</p>
+      <div class="ats-circle" style="background-color:#ffd700;">72%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $133K–$143K</p>
+      <p>Hiring Manager: John Doe 13</p>
+      <div class="ats-circle" style="background-color:#ffd700;">73%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $134K–$144K</p>
+      <p>Hiring Manager: John Doe 14</p>
+      <div class="ats-circle" style="background-color:#ffd700;">74%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $135K–$145K</p>
+      <p>Hiring Manager: John Doe 15</p>
+      <div class="ats-circle" style="background-color:#ffd700;">75%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $136K–$146K</p>
+      <p>Hiring Manager: John Doe 16</p>
+      <div class="ats-circle" style="background-color:#ffd700;">76%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $137K–$147K</p>
+      <p>Hiring Manager: John Doe 17</p>
+      <div class="ats-circle" style="background-color:#ffd700;">77%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $138K–$148K</p>
+      <p>Hiring Manager: John Doe 18</p>
+      <div class="ats-circle" style="background-color:#ffd700;">78%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $139K–$149K</p>
+      <p>Hiring Manager: John Doe 19</p>
+      <div class="ats-circle" style="background-color:#ffd700;">79%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $140K–$150K</p>
+      <p>Hiring Manager: John Doe 20</p>
+      <div class="ats-circle" style="background-color:#00ff95;">80%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $141K–$151K</p>
+      <p>Hiring Manager: John Doe 21</p>
+      <div class="ats-circle" style="background-color:#00ff95;">81%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $142K–$152K</p>
+      <p>Hiring Manager: John Doe 22</p>
+      <div class="ats-circle" style="background-color:#00ff95;">82%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $143K–$153K</p>
+      <p>Hiring Manager: John Doe 23</p>
+      <div class="ats-circle" style="background-color:#00ff95;">83%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $144K–$154K</p>
+      <p>Hiring Manager: John Doe 24</p>
+      <div class="ats-circle" style="background-color:#00ff95;">84%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $145K–$155K</p>
+      <p>Hiring Manager: John Doe 25</p>
+      <div class="ats-circle" style="background-color:#00ff95;">85%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $146K–$156K</p>
+      <p>Hiring Manager: John Doe 26</p>
+      <div class="ats-circle" style="background-color:#00ff95;">86%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $147K–$157K</p>
+      <p>Hiring Manager: John Doe 27</p>
+      <div class="ats-circle" style="background-color:#00ff95;">87%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $148K–$158K</p>
+      <p>Hiring Manager: John Doe 28</p>
+      <div class="ats-circle" style="background-color:#00ff95;">88%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $149K–$159K</p>
+      <p>Hiring Manager: John Doe 29</p>
+      <div class="ats-circle" style="background-color:#00ff95;">89%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $150K–$160K</p>
+      <p>Hiring Manager: John Doe 30</p>
+      <div class="ats-circle" style="background-color:#00ff95;">90%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $151K–$161K</p>
+      <p>Hiring Manager: John Doe 31</p>
+      <div class="ats-circle" style="background-color:#00ff95;">91%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $152K–$162K</p>
+      <p>Hiring Manager: John Doe 32</p>
+      <div class="ats-circle" style="background-color:#00ff95;">92%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $153K–$163K</p>
+      <p>Hiring Manager: John Doe 33</p>
+      <div class="ats-circle" style="background-color:#00ff95;">93%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $154K–$164K</p>
+      <p>Hiring Manager: John Doe 34</p>
+      <div class="ats-circle" style="background-color:#00ff95;">94%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/bah.com" alt="Booz Allen Logo">
+      <div class="job-title">ISSO II – Booz Allen</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $155K–$165K</p>
+      <p>Hiring Manager: John Doe 35</p>
+      <div class="ats-circle" style="background-color:#ffd700;">60%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/rtx.com" alt="Raytheon Logo">
+      <div class="job-title">Security Analyst – Zero Trust – Raytheon</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $156K–$166K</p>
+      <p>Hiring Manager: John Doe 36</p>
+      <div class="ats-circle" style="background-color:#ffd700;">61%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/saic.com" alt="SAIC Logo">
+      <div class="job-title">RMF Compliance Engineer – SAIC</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $157K–$167K</p>
+      <p>Hiring Manager: John Doe 37</p>
+      <div class="ats-circle" style="background-color:#ffd700;">62%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/leidos.com" alt="Leidos Logo">
+      <div class="job-title">Information System Security Manager – Leidos</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $158K–$168K</p>
+      <p>Hiring Manager: John Doe 38</p>
+      <div class="ats-circle" style="background-color:#ffd700;">63%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/caci.com" alt="CACI Logo">
+      <div class="job-title">Cyber Risk Advisor – CACI</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $159K–$169K</p>
+      <p>Hiring Manager: John Doe 39</p>
+      <div class="ats-circle" style="background-color:#ffd700;">64%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/baesystems.com" alt="BAE Systems Logo">
+      <div class="job-title">Information Assurance Engineer – BAE Systems</div>
+      <p>Location: Huntsville, AL – <strong>Remote</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $160K–$170K</p>
+      <p>Hiring Manager: John Doe 40</p>
+      <div class="ats-circle" style="background-color:#ffd700;">65%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Closing Soon</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/lockheedmartin.com" alt="Lockheed Martin Logo">
+      <div class="job-title">Senior ISSO – Lockheed Martin</div>
+      <p>Location: Huntsville, AL – <strong>Hybrid</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $161K–$171K</p>
+      <p>Hiring Manager: John Doe 41</p>
+      <div class="ats-circle" style="background-color:#ffd700;">66%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: Edited</p>
+    </div>
+    
+    <div class="job-card">
+      <img class="logo" src="https://logo.clearbit.com/northropgrumman.com" alt="Northrop Grumman Logo">
+      <div class="job-title">Cybersecurity Program Manager – Northrop Grumman</div>
+      <p>Location: Huntsville, AL – <strong>Onsite</strong></p>
+      <p>Clearance: TS/SCI | Keywords: RMF, ATO, Zero Trust</p>
+      <p>Salary: $162K–$172K</p>
+      <p>Hiring Manager: John Doe 42</p>
+      <div class="ats-circle" style="background-color:#ffd700;">67%</div>
+      <div class="buttons">
+        <button>📎 View Resume</button>
+        <button>📝 View Cover Letter</button>
+        <button>🔗 Apply Now</button>
+      </div>
+      <p>Status: New</p>
+    </div>
+    
+  </div>
+
+  <footer>Created by Michael Hoch</footer>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const timeString = now.toLocaleString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      document.getElementById('clock').textContent = timeString;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function toggleView() {
+      const grid = document.getElementById('grid');
+      const list = document.getElementById('list');
+      grid.classList.toggle('active');
+      list.classList.toggle('active');
+    }
+  </script>
+
+<script>
+  function updateCount(id) {
+    const el = document.getElementById(id);
+    let val = parseInt(el.innerText);
+    el.innerText = val + 1;
+  }
+</script>
+</body>
+</html>
