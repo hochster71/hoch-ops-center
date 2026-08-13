@@ -1,7 +1,7 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786654505",
-  "nonce": "sha256:1355da207a934da75672fcc96b5c6f48c86aa9906877edb525dfbaa3d2904afd",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786654510",
+  "nonce": "sha256:7b5797310a9aa37961b523602f932667c49e8e81d79f66dd1619763fdf5a4deb",
   "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T205419Z",
   "truth_digest": "sha256:f966d93c93e27b1c7fd0c73bf4a10109058ebac2fdfed3762defd22bdfe00691",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
@@ -42,5 +42,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T20:55:05.342232Z"
+  "created_at_utc": "2026-08-13T20:55:10.800259Z"
 }
