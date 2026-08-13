@@ -1,7 +1,7 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786653688",
-  "nonce": "sha256:303616ac9abefe22f6d3f0fc079fb77ffba2b0047894bf5baade6cda0d862d9c",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786653722",
+  "nonce": "sha256:df0cb0dfca99c0238e4090da5890889741aec3b8f5e37b53e17ac10a23a90750",
   "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T204113Z",
   "truth_digest": "sha256:5056e9e7e58b307ef4279a0978be65d8b8bd06a86e66a996ff36eeb26689f067",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
@@ -11,6 +11,19 @@
   "verifier_verdict": "PASS",
   "effective_level": {},
   "overall_disposition": "HOLD",
+  "alma_mesh_status": "OPERATIONAL_RUNNING",
+  "founder_action_required": false,
+  "burnin_checkpoint_count": 56100,
+  "burnin_countable_hours": 183.19,
+  "burnin_target_hours": 720.0,
+  "burnin_observer_status": "VERIFIED_CONTINUOUS_OBSERVATION_WITH_DOCUMENTED_SCARS",
+  "agent_executable_remaining": 0,
+  "l7_predicates_pass_count": 11,
+  "l7_predicates_total_count": 17,
+  "release_floor_utc": "2026-08-21T12:05:00Z",
+  "cpm_days_remaining": 7.67,
+  "cpm_capability_score": 80.0,
+  "cpm_burnin_completion_pct": 74.4,
   "closed_defects": [
     "AUTO-FOUNDER-TRANSPORT-001",
     "PROV-LOCAL-AS-EXTERNAL-001"
@@ -25,5 +38,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T20:41:28.242216Z"
+  "created_at_utc": "2026-08-13T20:42:02.646280Z"
 }
