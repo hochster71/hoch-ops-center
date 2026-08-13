@@ -1,9 +1,9 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786650478",
-  "nonce": "sha256:d90ed140605c71ffb0dd0c82fce589b31c487731102faa9cb9ffc59e18a1877b",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T194742Z",
-  "truth_digest": "sha256:b5a34cf64d4fba76e1ddd63fbaf080959b0ebf418301199e60ddff2b13096d4d",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786650565",
+  "nonce": "sha256:dcd7972cafd2d5eff44e78d361cb968e88fce6df6438c622dd3fa5fe286029e4",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T194913Z",
+  "truth_digest": "sha256:89058ef498f8b8a7fa39283ed1398533fd122db130e48a08185492fdda540581",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
   "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
   "lifecycle_state": "TRANSPORT_CHALLENGE_STAGED",
@@ -22,5 +22,5 @@
     "q03_github_bridge_published": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T19:47:58.976456Z"
+  "created_at_utc": "2026-08-13T19:49:25.481619Z"
 }
