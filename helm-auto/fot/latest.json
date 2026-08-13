@@ -1,9 +1,9 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786657543",
-  "nonce": "sha256:5ae6fc6a26a9dcbb7289a72a675c25e93245990d17306d14cc132527bf408513",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T214506Z",
-  "truth_digest": "sha256:80f35cb53a67cc03b26671deb85f629f7679f16e3ae51352595c9e06e4102934",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786657763",
+  "nonce": "sha256:fdc4dbd3cc3308f5466fc6e1a717a73094d929f67317975a9a29b5e2fe3e502d",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T214852Z",
+  "truth_digest": "sha256:ad22c2de1ba1529ce657914039cc859ba6de0d74966beae490262a1700e865a3",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
   "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
   "lifecycle_state": "ZERO_COURIER_QUALIFIED",
@@ -15,12 +15,27 @@
   "founder_action_required": false,
   "burnin_epoch_utc": "2026-08-01T20:00:00Z",
   "burnin_clock_schism": true,
-  "burnin_checkpoint_count": 56477,
-  "burnin_countable_hours": 183.19,
-  "burnin_target_hours": 720.0,
+  "burnin_checkpoint_count": 56499,
+  "soak_countable_hours": 183.19,
+  "soak_target_hours": 720.0,
+  "soak_deficit_hours": 536.81,
+  "soak_completion_pct": 25.443,
+  "soak_remaining_pct": 74.557,
+  "calendar_release_floor_utc": "2026-08-21T12:05:00Z",
+  "days_to_calendar_floor": 7.6,
+  "predicted_soak_completion_utc": "2026-09-05T05:37:00Z",
+  "days_to_soak_completion": 22.33,
+  "governing_formula": "promotion_eligible_at = max(calendar_release_floor, timestamp_when_countable_soak_reaches_720_hours)",
   "burnin_observer_status": "VERIFIED_CONTINUOUS_OBSERVATION_WITH_DOCUMENTED_SCARS",
   "sealed_candidate_soak_hours": 0.0,
   "earliest_release_floor_canonical_utc": "2026-08-31T20:00:00Z",
+  "candidate_amendment_id": "K3-REPRO-HARDENED-5AC134BC-A1",
+  "prior_receipt_id": "K3-REPRO-HARDENED-5AC134BC-BLOCKED-20260813T204357Z",
+  "old_candidate_disposition": "DISQUALIFIED_DIVERGENT_WORKTREE (7ccdb81de)",
+  "canonical_bundle_sha256": "b2584e5c7e8784e42779668098fc44a9036eb00411e3feed42e60a28b21afe02",
+  "amended_evidence_seal_sha256": "88818ca138bab860d65662ea8163faabf0edf2255b9fdce393b7a6dfd43d0892",
+  "input_availability_status": "INPUT_AVAILABILITY_BLOCK_REMEDIATED_AT_SOURCE",
+  "verifier_transfer_status": "VERIFIER_ARTIFACT_TRANSFER_READY",
   "a09_status": "REPAIRED_AWAITING_INDEPENDENT_V4_REATTACK",
   "v3_regression": "7/7 HELD",
   "v4_novel_vectors": {
@@ -46,12 +61,13 @@
   "l7_predicates_pass_count": 11,
   "l7_predicates_total_count": 17,
   "cpm_capability_score": 80.0,
-  "cpm_burnin_completion_pct": 74.4,
+  "cpm_burnin_completion_pct": 25.443,
+  "cpm_burnin_remaining_pct": 74.557,
   "closed_defects": [
     "AUTO-FOUNDER-TRANSPORT-001",
     "PROV-LOCAL-AS-EXTERNAL-001"
   ],
-  "canonical_posture": "ZERO_COURIER_QUALIFIED \u2014 A09_REPAIRED_AWAITING_V4_REATTACK \u2014 OPENAI_SOL_VERIFIER_PASS \u2014 KIMI_K3_IDENTITY_NOT_PROVEN \u2014 FRESH_CANDIDATE_BLOCKED \u2014 HOLD_NO_PROMOTION",
+  "canonical_posture": "ZERO_COURIER_QUALIFIED \u2014 A09_REPAIRED_AWAITING_V4_REATTACK \u2014 AMENDMENT_A1_ISSUED \u2014 KIMI_K3_IDENTITY_NOT_PROVEN \u2014 FRESH_CANDIDATE_BLOCKED \u2014 HOLD_NO_PROMOTION",
   "relay_transport_metrics": {
     "internal_manual_relay_count": 0,
     "external_manual_relay_count": 0,
@@ -61,5 +77,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T21:45:43.488049Z"
+  "created_at_utc": "2026-08-13T21:49:23.543629Z"
 }
