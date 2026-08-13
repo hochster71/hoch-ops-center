@@ -1,7 +1,7 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786657277",
-  "nonce": "sha256:d752ac5442ca6c936169ca093775f07991eada492d79a6d833a0586bce8c37db",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786657294",
+  "nonce": "sha256:8191e1151a890009c70e5b1685e3299920444563cb53aa1458ba846054641269",
   "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T214036Z",
   "truth_digest": "sha256:3ba4db0b50a937770b94ba4f8fbea27097bd86a04e4dc0bb54af03787a16db85",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
@@ -15,7 +15,7 @@
   "founder_action_required": false,
   "burnin_epoch_utc": "2026-08-01T20:00:00Z",
   "burnin_clock_schism": true,
-  "burnin_checkpoint_count": 56451,
+  "burnin_checkpoint_count": 56453,
   "burnin_countable_hours": 183.19,
   "burnin_target_hours": 720.0,
   "burnin_observer_status": "VERIFIED_CONTINUOUS_OBSERVATION_WITH_DOCUMENTED_SCARS",
@@ -36,10 +36,10 @@
     "N3": "REVOCATION_NOT_TERMINAL (Hardened: permanent tombstoning enforced)"
   },
   "lease_journal_head": {
-    "pinned_seq_id": 60,
-    "pinned_hash": "bc78c999bb5ce2a9d7c3ea8bf024e653bcbc12a901314fcf8b9e7e9bba44dee3",
-    "terminal_seq_id": 60,
-    "terminal_record_hash": "bc78c999bb5ce2a9d7c3ea8bf024e653bcbc12a901314fcf8b9e7e9bba44dee3"
+    "pinned_seq_id": 0,
+    "pinned_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "terminal_seq_id": 0,
+    "terminal_record_hash": "0000000000000000000000000000000000000000000000000000000000000000"
   },
   "fresh_candidate_permitted": false,
   "agent_executable_remaining": 3,
@@ -61,5 +61,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T21:41:17.383136Z"
+  "created_at_utc": "2026-08-13T21:41:34.360113Z"
 }
