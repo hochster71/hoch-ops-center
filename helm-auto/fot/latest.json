@@ -1,12 +1,11 @@
 {
-  "protocol": "HELM-AUTO-Q02-Q03-VERIFIED",
-  "challenge_id": "REPAIR-Q02-CHALLENGE-1786650770",
-  "nonce": "sha256:f5561ba142a1ca61c5e6e7d1d25de78db4168b274e71f2057b9ea521249ee5ef",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-2026-08-13T19:52:53.896793Z",
-  "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
+  "protocol": "HELM-AUTO-Q02-Q03-LIVE",
+  "challenge_id": "TASK-ROUTINE-001",
+  "nonce": "sha256:3742dd0a6738739265a859afb37915015c1bd0c7d5280a7844401d07f0917558",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-2026-08-13T19:55:18.224153Z",
+  "candidate_sha": "3318360a2",
   "lifecycle_state": "ZERO_COURIER_QUALIFIED",
-  "verifier_seat": "INDEPENDENT_EXTERNAL_OPENAI",
-  "verifier_verdict": "PASS",
+  "evidence_digest": "sha256:03a7faf84d05309968ea5d26b7b28e39b4ccb4c6692ec149564e85ff1ae25e3a",
   "relay_transport_metrics": {
     "internal_manual_relay_count": 0,
     "external_manual_relay_count": 0,
@@ -15,5 +14,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T19:52:53.896799Z"
+  "created_at_utc": "2026-08-13T19:55:18.224160Z"
 }
