@@ -1,9 +1,9 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786657294",
-  "nonce": "sha256:8191e1151a890009c70e5b1685e3299920444563cb53aa1458ba846054641269",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T214036Z",
-  "truth_digest": "sha256:3ba4db0b50a937770b94ba4f8fbea27097bd86a04e4dc0bb54af03787a16db85",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786657543",
+  "nonce": "sha256:5ae6fc6a26a9dcbb7289a72a675c25e93245990d17306d14cc132527bf408513",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T214506Z",
+  "truth_digest": "sha256:80f35cb53a67cc03b26671deb85f629f7679f16e3ae51352595c9e06e4102934",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
   "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
   "lifecycle_state": "ZERO_COURIER_QUALIFIED",
@@ -15,7 +15,7 @@
   "founder_action_required": false,
   "burnin_epoch_utc": "2026-08-01T20:00:00Z",
   "burnin_clock_schism": true,
-  "burnin_checkpoint_count": 56453,
+  "burnin_checkpoint_count": 56477,
   "burnin_countable_hours": 183.19,
   "burnin_target_hours": 720.0,
   "burnin_observer_status": "VERIFIED_CONTINUOUS_OBSERVATION_WITH_DOCUMENTED_SCARS",
@@ -36,10 +36,10 @@
     "N3": "REVOCATION_NOT_TERMINAL (Hardened: permanent tombstoning enforced)"
   },
   "lease_journal_head": {
-    "pinned_seq_id": 0,
-    "pinned_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-    "terminal_seq_id": 0,
-    "terminal_record_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+    "pinned_seq_id": 3,
+    "pinned_hash": "72887fe10a75a688e8d64fd296f2fd836dcad295bf56d7a6e1e7095a924fd8bf",
+    "terminal_seq_id": 3,
+    "terminal_record_hash": "72887fe10a75a688e8d64fd296f2fd836dcad295bf56d7a6e1e7095a924fd8bf"
   },
   "fresh_candidate_permitted": false,
   "agent_executable_remaining": 3,
@@ -61,5 +61,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T21:41:34.360113Z"
+  "created_at_utc": "2026-08-13T21:45:43.488049Z"
 }
