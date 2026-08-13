@@ -1,9 +1,9 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786654343",
-  "nonce": "sha256:3265a9991bb0d9a1bf61e90ba380f37becb1ea102837fd5be8433ebcf1e9a9a2",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T205143Z",
-  "truth_digest": "sha256:dcd96aa1d69db21c9cfe321e9ea25f0d9e9bafe02120efea5daef0818885b96d",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786654505",
+  "nonce": "sha256:1355da207a934da75672fcc96b5c6f48c86aa9906877edb525dfbaa3d2904afd",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T205419Z",
+  "truth_digest": "sha256:f966d93c93e27b1c7fd0c73bf4a10109058ebac2fdfed3762defd22bdfe00691",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
   "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
   "lifecycle_state": "ZERO_COURIER_QUALIFIED",
@@ -13,22 +13,26 @@
   "overall_disposition": "HOLD",
   "alma_mesh_status": "OPERATIONAL_RUNNING",
   "founder_action_required": false,
-  "burnin_checkpoint_count": 56161,
+  "burnin_epoch_utc": "2026-08-01T20:00:00Z",
+  "burnin_clock_schism": true,
+  "burnin_checkpoint_count": 56178,
   "burnin_countable_hours": 183.19,
   "burnin_target_hours": 720.0,
   "burnin_observer_status": "VERIFIED_CONTINUOUS_OBSERVATION_WITH_DOCUMENTED_SCARS",
+  "sealed_candidate_soak_hours": 0.0,
+  "earliest_release_floor_canonical_utc": "2026-08-31T20:00:00Z",
+  "a09_kernel_r1_r3_status": "IMPLEMENTED_AND_ATTACK_VERIFIED_7_OF_7",
   "agent_executable_remaining": 0,
   "l7_predicates_pass_count": 11,
   "l7_predicates_total_count": 17,
-  "release_floor_utc": "2026-08-21T12:05:00Z",
-  "cpm_days_remaining": 7.67,
   "cpm_capability_score": 80.0,
   "cpm_burnin_completion_pct": 74.4,
   "closed_defects": [
     "AUTO-FOUNDER-TRANSPORT-001",
-    "PROV-LOCAL-AS-EXTERNAL-001"
+    "PROV-LOCAL-AS-EXTERNAL-001",
+    "A09-T2-JOURNAL-TRUNCATION-PREFIX-REPLAY"
   ],
-  "canonical_posture": "ZERO_COURIER_QUALIFIED \u2014 EXTERNAL_OPENAI_VERIFIER_PASS \u2014 SOL_DIRECT_INGEST_PASS \u2014 KIMI_K3_SPECIFIC_IDENTITY_NOT_PROVEN \u2014 HOLD_NO_PROMOTION",
+  "canonical_posture": "ZERO_COURIER_QUALIFIED \u2014 A09_R1_R3_ATTACK_PASS(7/7) \u2014 OPENAI_SOL_VERIFIER_PASS \u2014 KIMI_K3_IDENTITY_NOT_PROVEN \u2014 HOLD_NO_PROMOTION",
   "relay_transport_metrics": {
     "internal_manual_relay_count": 0,
     "external_manual_relay_count": 0,
@@ -38,5 +42,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T20:52:23.126946Z"
+  "created_at_utc": "2026-08-13T20:55:05.342232Z"
 }
