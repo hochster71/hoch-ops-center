@@ -1,9 +1,9 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786651547",
-  "nonce": "sha256:7fe86c083476aef7827bde2cdcd0917ab869e9f85620146a908869de8b0c6218",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T200536Z",
-  "truth_digest": "sha256:5199476721bc24e3a7fa92163285dae8dc3886f1b0c3ba68614e9df7d5cc436d",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786651837",
+  "nonce": "sha256:6df2cc6b760824dc24079cdc4a5b52f06c56575b93585ce967fef451badba4e0",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T201023Z",
+  "truth_digest": "sha256:2515f7177beec8d34110e3e5eba73c6563201b0c3bcc91192df32c0f151f1bbc",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
   "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
   "lifecycle_state": "ZERO_COURIER_QUALIFIED",
@@ -25,5 +25,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T20:05:47.942965Z"
+  "created_at_utc": "2026-08-13T20:10:37.443477Z"
 }
