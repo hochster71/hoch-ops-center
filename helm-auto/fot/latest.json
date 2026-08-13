@@ -1,9 +1,9 @@
 {
   "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786660514",
-  "nonce": "sha256:6c5e81f796e527a28185875231a2bb9d3c969039f9f583800ad8caf573c21d96",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T223346Z",
-  "truth_digest": "sha256:763922486dc15498751d8e2885bcad6b78e49a061f89d525fa4079680ec1eca6",
+  "challenge_id": "HELM-AUTO-Q03-SOL-1786660598",
+  "nonce": "sha256:a9ebf38aae6bfca69e1922ec670599093521cb094f0b8a912d3254c25d1b773c",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T223538Z",
+  "truth_digest": "sha256:8fd587bd0daf0fca74f86a335888c36e63508fa6efd63f7b3b32f005e6ede330",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
   "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
   "lifecycle_state": "ZERO_COURIER_QUALIFIED",
@@ -15,7 +15,7 @@
   "founder_action_required": false,
   "burnin_epoch_utc": "2026-08-01T20:00:00Z",
   "burnin_clock_schism": true,
-  "burnin_checkpoint_count": 56748,
+  "burnin_checkpoint_count": 56757,
   "soak_countable_hours": 183.19,
   "soak_target_hours": 720.0,
   "soak_deficit_hours": 536.81,
@@ -81,5 +81,5 @@
     "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T22:35:14.394487Z"
+  "created_at_utc": "2026-08-13T22:36:38.891454Z"
 }
