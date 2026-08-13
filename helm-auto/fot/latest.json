@@ -1,26 +1,19 @@
 {
-  "protocol": "HELM-AUTO-Q03",
-  "challenge_id": "HELM-AUTO-Q03-SOL-1786650565",
-  "nonce": "sha256:dcd7972cafd2d5eff44e78d361cb968e88fce6df6438c622dd3fa5fe286029e4",
-  "truth_snapshot_id": "TRUTH-SNAPSHOT-20260813T194913Z",
-  "truth_digest": "sha256:89058ef498f8b8a7fa39283ed1398533fd122db130e48a08185492fdda540581",
+  "protocol": "HELM-AUTO-Q02-Q03-VERIFIED",
+  "challenge_id": "REPAIR-Q02-CHALLENGE-1786650770",
+  "nonce": "sha256:f5561ba142a1ca61c5e6e7d1d25de78db4168b274e71f2057b9ea521249ee5ef",
+  "truth_snapshot_id": "TRUTH-SNAPSHOT-2026-08-13T19:52:53.896793Z",
   "candidate_sha": "3318360a2e05a8aec59d9469897e139b749e6321",
-  "candidate_tree_sha": "df782bf2e7a62fc8bf4e3fca4d7e1f414b74f0d7",
-  "lifecycle_state": "TRANSPORT_CHALLENGE_STAGED",
-  "effective_level": {},
-  "overall_disposition": "HOLD",
-  "closed_defects": [
-    "PROV-LOCAL-AS-EXTERNAL-001"
-  ],
-  "pending_gates": {
-    "P0_K3_ROUNDTRIP": "AUTO-Q02-REAL-SEAT-ROUNDTRIP",
-    "P1_SOL_DIRECT_INGEST": "AUTO-Q03-SOL-DIRECT-INGEST"
-  },
+  "lifecycle_state": "ZERO_COURIER_QUALIFIED",
+  "verifier_seat": "INDEPENDENT_EXTERNAL_OPENAI",
+  "verifier_verdict": "PASS",
   "relay_transport_metrics": {
     "internal_manual_relay_count": 0,
     "external_manual_relay_count": 0,
-    "q03_github_bridge_published": true
+    "external_k3_roundtrip_verified": true,
+    "external_sol_direct_ingest_verified": true,
+    "is_zero_courier_qualified": true
   },
   "publisher_seat": "AG_IDE_AUTHENTICATED",
-  "created_at_utc": "2026-08-13T19:49:25.481619Z"
+  "created_at_utc": "2026-08-13T19:52:53.896799Z"
 }
